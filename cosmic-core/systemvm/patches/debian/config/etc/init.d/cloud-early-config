@@ -1,15 +1,4 @@
 #!/bin/bash
-### BEGIN INIT INFO
-# Provides:          cloud-early-config
-# Required-Start:    qemu-guest-agent mountkernfs $local_fs
-# Required-Stop:     $local_fs
-# Should-Start:
-# Should-Stop:
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
-# Short-Description: configure according to cmdline
-### END INIT INFO
-
 
 PATH="/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin"
 #set -x
@@ -685,7 +674,7 @@ setup_sshd(){
 
 setup_vpc_apache2() {
   log_it "Setting up apache web server for VPC"
-  chkconfig apache2 off
+  systemctl disable apache2
   rm -f /etc/apache2/conf.d/vhost*.conf
   [ -f /etc/apache2/sites-available/default ] && echo "" >/etc/apache2/sites-available/default
   [ -f /etc/apache2/sites-available/default-ssl ] && echo "">/etc/apache2/sites-available/default-ssl
@@ -880,7 +869,7 @@ setup_router() {
   disable_rpfilter_domR
   enable_fwding 1
   enable_rpsrfs 1
-  chkconfig nfs-common off
+  systemctl disable nfs-common
   cp /etc/iptables/iptables-router /etc/iptables/rules.v4
 #for old templates
   cp /etc/iptables/iptables-router /etc/iptables/rules
@@ -1016,7 +1005,7 @@ setup_dhcpsrvr() {
   enable_svc cloud-passwd-srvr 1
   enable_svc cloud 0
   enable_fwding 0
-  chkconfig nfs-common off
+  systemctl disable nfs-common
 
   cp /etc/iptables/iptables-router /etc/iptables/rules.v4
   cp /etc/iptables/iptables-router /etc/iptables/rules
@@ -1156,7 +1145,7 @@ setup_console_proxy() {
   enable_svc dnsmasq 0
   enable_svc cloud-passwd-srvr 0
   enable_svc cloud 1
-  chkconfig nfs-common off
+  systemctl disable nfs-common
   rm /etc/logrotate.d/cloud
 }
 
@@ -1184,8 +1173,8 @@ setup_elbvm() {
   enable_svc dnsmasq 0
   enable_svc cloud-passwd-srvr 0
   enable_svc cloud 0
-  chkconfig nfs-common off
-  chkconfig portmap off
+  systemctl disable nfs-common
+  systemctl disable portmap
 }
 
 setup_ilbvm() {
@@ -1207,8 +1196,8 @@ setup_ilbvm() {
   enable_svc dnsmasq 0
   enable_svc cloud-passwd-srvr 0
   enable_svc cloud 0
-  chkconfig nfs-common off
-  chkconfig portmap off
+  systemctl disable nfs-common
+  systemctl disable portmap
 }
 
 setup_default() {

@@ -51,8 +51,8 @@ class CsDhcp(CsDataBag):
                 continue
             device = i['dev']
             ip = i['ip'].split('/')[0]
-            sline = "dhcp-range=interface:%s,set:interface" % (device)
-            line = "dhcp-range=interface:%s,set:interface-%s,%s,static" % (device, device, ip)
+            sline = "dhcp-range=set:interface" % (device)
+            line = "dhcp-range=set:interface-%s,%s,static" % (device, device, ip)
             self.conf.search(sline, line)
             gn = CsGuestNetwork(device, self.config)
             sline = "dhcp-option=tag:interface-%s,15" % device

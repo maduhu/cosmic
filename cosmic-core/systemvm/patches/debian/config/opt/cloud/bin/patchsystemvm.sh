@@ -96,10 +96,10 @@ dhcpsrvr_svcs() {
 }
 
 enable_pcihotplug() {
-   sed -i -e "/acpiphp/d" /etc/modules
-   sed -i -e "/pci_hotplug/d" /etc/modules
-   echo acpiphp >> /etc/modules
-   echo pci_hotplug >> /etc/modules
+   sed -i -e "/shpchp/d" /etc/modules
+   #sed -i -e "/hotplug/d" /etc/modules
+   echo shpchp >> /etc/modules
+   #echo hotplug >> /etc/modules
 }
 
 enable_serial_console() {

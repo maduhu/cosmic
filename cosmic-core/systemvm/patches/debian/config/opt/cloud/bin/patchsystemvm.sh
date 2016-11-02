@@ -23,7 +23,7 @@ patch_systemvm() {
 generic_svcs() {
    systemctl daemon-reload
    systemctl enable systemd-networkd.service
-   systemctl enable systemd-networkd-online.service
+   systemctl enable systemd-networkd-wait-online.service
    systemctl enable qemu-guest-agent.service
 }
 

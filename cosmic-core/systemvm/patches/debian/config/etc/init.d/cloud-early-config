@@ -89,18 +89,18 @@ get_boot_params() {
           ;;
      kvm)
         log_it "Getting cmdline config and ssh keys in place."
-        if [ ! -s /etc/init.d/qemu-guest-agent ]; then
+        if [ ! -s /etc/systemd/system/qemu-guest-agent.service ]; then
             log_it "Error! Qemu guest agent not found! Incompatible template! Bailing out.."
-            return true
+            return 1
         fi
 
         # Make sure the Qemu guest agent is running, or else we will be waiting forever
-        if ! /etc/init.d/qemu-guest-agent status &>/dev/null; then
+        if ! systemctl is-active qemu-guest-agent &>/dev/null; then
             log_it "Starting Qemu guest agent"
-            /etc/init.d/qemu-guest-agent start
+            systemctl start qemu-guest-agent
             if [ $? -gt 0 ]; then
                 log_it "Starting Qemu Guest Agent failed!"
-                return false
+                return 1
             fi
         else
             log_it "Good! Qemu guest agent already running."

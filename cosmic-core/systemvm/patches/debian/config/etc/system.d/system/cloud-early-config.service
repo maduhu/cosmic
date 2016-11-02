@@ -1,0 +1,14 @@
+[Unit]
+Description=Configure cloudservices according to cmdline
+After=qemu-guest-agent.service mountkernfs.service local-fs.target
+
+[Service]
+Type=simple
+RemainAfterExit=yes
+EnvironmentFile=-/etc/default/cloud-early-config
+ExecStart=/etc/init.d/cloud-early-config start
+ExecStop=/etc/init.d/cloud-early-config stop
+
+
+[Install]
+WantedBy=multi-user.target

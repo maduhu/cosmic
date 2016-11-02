@@ -1,0 +1,11 @@
+[Unit]
+Description=QEMU Guest Agent startup script
+After=sys-devices-pci0000:00-0000:00:06.0-virtio3-virtio\x2dports-vport3p1.device
+
+[Service]
+Restart=always
+RemainAfterExit=yes
+ExecStart=/usr/sbin/qemu-ga -m virtio-serial -p /dev/virtio-ports/org.qemu.guest_agent.0
+
+[Install]
+WantedBy=multi-user.target

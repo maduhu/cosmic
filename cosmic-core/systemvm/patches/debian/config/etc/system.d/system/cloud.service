@@ -1,7 +1,7 @@
 [Unit]
 Description=Start Cosmic Agent
-After=network-online.target mountkernfs.service local-fs.target cloud-early-config.service
-Wants=network-online.target cloud-early-config.service
+After=systemd-networkd-wait-online.service mountkernfs.service local-fs.target cloud-early-config.service
+Wants=systemd-networkd-wait-online.service cloud-early-config.service
 
 [Service]
 RemainAfterExit=yes

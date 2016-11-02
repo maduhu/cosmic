@@ -20,6 +20,13 @@ patch_systemvm() {
    return 0
 }
 
+generic_svcs() {
+   systemctl daemon-reload
+   systemctl enable systemd-networkd.service
+   systemctl enable systemd-networkd-online.service
+   systemctl enable qemu-guest-agent.service
+}
+
 consoleproxy_svcs() {
    systemctl enable cloud
    systemctl enable postinit
@@ -145,6 +152,8 @@ fi
 
 #empty known hosts
 echo "" > /root/.ssh/known_hosts
+
+generic_svcs
 
 if [ "$Hypervisor" == "kvm" ]
 then

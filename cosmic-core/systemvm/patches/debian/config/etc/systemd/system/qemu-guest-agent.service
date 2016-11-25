@@ -1,5 +1,6 @@
 [Unit]
 Description=QEMU Guest Agent startup script
+DefaultDependencies=no
 After=sys-devices-pci0000:00-0000:00:06.0-virtio3-virtio\x2dports-vport3p1.device
 
 [Service]

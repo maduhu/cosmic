@@ -1,6 +1,8 @@
 [Unit]
 Description=Configure cloudservices according to cmdline
+DefaultDependencies=no
 After=qemu-guest-agent.service mountkernfs.service local-fs.target
+Before=systemd-networkd.service
 
 [Service]
 Type=simple
@@ -9,6 +11,6 @@ EnvironmentFile=-/etc/default/cloud-early-config
 ExecStart=/etc/init.d/cloud-early-config start
 ExecStop=/etc/init.d/cloud-early-config stop
 
-
 [Install]
 WantedBy=multi-user.target
+RequiredBy=cloud.service

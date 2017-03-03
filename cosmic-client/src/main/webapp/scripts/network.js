@@ -2203,7 +2203,7 @@
                                 }
                             },
                             virtualRouters: {
-                                title: "label.virtual.appliances",
+                                title: "label.virtual.routers",
                                 listView: cloudStack.sections.system.subsections.virtualRouters.sections.routerNoGroup.listView
                             },
                             egressRules: {

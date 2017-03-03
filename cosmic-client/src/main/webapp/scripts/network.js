@@ -1969,6 +1969,9 @@
                                 hiddenTabs.push('egressRules');
                             }
 
+                            if (!(isAdmin() || isDomainAdmin())) {
+                                hiddenTabs.push("virtualRouters");
+                            }
                             return hiddenTabs;
                         },
 
@@ -2199,7 +2202,10 @@
                                     });
                                 }
                             },
-
+                            virtualRouters: {
+                                title: "label.virtual.appliances",
+                                listView: cloudStack.sections.system.subsections.virtualRouters.sections.routerNoGroup.listView
+                            },
                             egressRules: {
                                 title: 'label.egress.rules',
                                 custom: function (args) {

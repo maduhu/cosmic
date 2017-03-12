@@ -18,7 +18,6 @@ public class IpAddressTO {
     private Integer networkRate;
     private TrafficType trafficType;
     private String networkName;
-    private Integer nicDevId;
     private boolean newNic;
 
     public IpAddressTO(final long accountId, final String ipAddress, final boolean add, final boolean firstIP,
@@ -104,14 +103,6 @@ public class IpAddressTO {
 
     public Integer getNetworkRate() {
         return networkRate;
-    }
-
-    public Integer getNicDevId() {
-        return nicDevId;
-    }
-
-    public void setNicDevId(final Integer nicDevId) {
-        this.nicDevId = nicDevId;
     }
 
     public boolean isNewNic() {

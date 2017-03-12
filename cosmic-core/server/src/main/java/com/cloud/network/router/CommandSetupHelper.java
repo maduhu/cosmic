@@ -986,13 +986,6 @@ public class CommandSetupHelper {
                 ip.setTrafficType(network.getTrafficType());
                 ip.setNetworkName(_networkModel.getNetworkTag(router.getHypervisorType(), network));
 
-                final String ipAddress = ipAddr.getIpAddress();
-                final Long networkId = network.getId();
-                final int deviceId = nicProfile.getDeviceId();
-                ip.setNicDevId(deviceId);
-
-                s_logger.debug("Nic device for IP address using: address = " + ipAddress + " and networkId = " + networkId + " is ==> " + deviceId);
-
                 ipsToSend[i++] = ip;
             }
             final IpAssocVpcCommand cmd = new IpAssocVpcCommand(ipsToSend);
@@ -1013,13 +1006,6 @@ public class CommandSetupHelper {
 
         ip.setTrafficType(network.getTrafficType());
         ip.setNetworkName(_networkModel.getNetworkTag(router.getHypervisorType(), network));
-
-        final String ipAddress = ipAddr.getIpAddress();
-        final Long networkId = network.getId();
-        final int deviceId = nicProfile.getDeviceId();
-        ip.setNicDevId(deviceId);
-
-        s_logger.debug("Nic device for IP address using: address = " + ipAddress + " and networkId = " + networkId + " is ==> " + deviceId);
 
         final SetupPrivateGatewayCommand cmd = new SetupPrivateGatewayCommand(ip);
         cmd.setAccessDetail(NetworkElementCommand.ROUTER_IP, _routerControlHelper.getRouterControlIp(router.getId()));

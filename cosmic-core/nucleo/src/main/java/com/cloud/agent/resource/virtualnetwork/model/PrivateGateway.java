@@ -6,21 +6,19 @@ public class PrivateGateway extends ConfigBase {
     private boolean add;
     private String netmask;
     private String vifMacAddress;
-    private Integer nicDevId;
 
     public PrivateGateway() {
         // Empty constructor for (de)serialization
         super(ConfigBase.PRIVATE_GATEWAY);
     }
 
-    public PrivateGateway(final String ipAddress, final boolean sourceNat, final boolean add, final String netmask, final String vifMacAddress, final Integer nicDevId) {
+    public PrivateGateway(final String ipAddress, final boolean sourceNat, final boolean add, final String netmask, final String vifMacAddress) {
         super(ConfigBase.PRIVATE_GATEWAY);
         this.ipAddress = ipAddress;
         this.sourceNat = sourceNat;
         this.add = add;
         this.netmask = netmask;
         this.vifMacAddress = vifMacAddress;
-        this.nicDevId = nicDevId;
     }
 
     public String getIpAddress() {
@@ -63,11 +61,4 @@ public class PrivateGateway extends ConfigBase {
         this.vifMacAddress = vifMacAddress;
     }
 
-    public Integer getNicDevId() {
-        return nicDevId;
-    }
-
-    public void setNicDevId(final Integer nicDevId) {
-        this.nicDevId = nicDevId;
-    }
 }

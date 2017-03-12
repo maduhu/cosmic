@@ -1113,6 +1113,7 @@ public class VirtualNetworkApplianceManagerImpl extends ManagerBase implements V
         String defaultIp6Dns2 = null;
         for (final NicProfile nic : profile.getNics()) {
             final int deviceId = nic.getDeviceId();
+            final String deviceMac = nic.getMacAddress();
             boolean ipv4 = false, ipv6 = false;
             if (nic.getIPv4Address() != null) {
                 ipv4 = true;
@@ -1124,6 +1125,9 @@ public class VirtualNetworkApplianceManagerImpl extends ManagerBase implements V
                 buf.append(" eth").append(deviceId).append("ip6=").append(nic.getIPv6Address());
                 buf.append(" eth").append(deviceId).append("ip6prelen=").append(NetUtils.getIp6CidrSize(nic.getIPv6Cidr()));
             }
+
+            // Send mac address
+            buf.append(" eth").append(deviceId).append("mac=").append(deviceMac);
 
             if (nic.isDefaultNic()) {
                 if (ipv4) {
@@ -1142,6 +1146,7 @@ public class VirtualNetworkApplianceManagerImpl extends ManagerBase implements V
                 buf.append(" localgw=").append(dest.getPod().getGateway());
             } else if (nic.getTrafficType() == TrafficType.Control) {
                 controlNic = nic;
+                buf.append(" controlmac=").append(deviceMac);
                 buf.append(createRedundantRouterArgs(controlNic, router));
             } else if (nic.getTrafficType() == TrafficType.Guest) {
                 dnsProvided = _networkModel.isProviderSupportServiceInNetwork(nic.getNetworkId(), Service.Dns, Provider.VirtualRouter);

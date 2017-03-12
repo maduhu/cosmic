@@ -147,33 +147,22 @@ class updateDataBag:
         qf.load({'ip_address': [dbag], 'type': 'ips'})
 
     # Based on mac address, find the device we should use
-    def validate_device_based_on_mac_address(self):
+    def get_device_from_mac_address(self):
         d_to_merge = self.qFile.data
 
         mac_address_to_find_device_for = self.get_macaddress_from_databag(d_to_merge)
         if not mac_address_to_find_device_for:
-            return d_to_merge
-        if 'device' not in d_to_merge and 'nic_dev_id' in d_to_merge:
-            d_to_merge['device'] = "eth" + str(d_to_merge['nic_dev_id'])
-        elif 'device' not in d_to_merge:
-            logging.warning("Unable to validate mac_address / device because we couldn't locate the device in the json (need 'device' or 'nic_dev_id' property.")
+            logging.error("Unable to get device from mac_address because we couldn't locate the mac_address in the json (need 'mac_address' or 'vif_mac_address' property.")
             return d_to_merge
 
         device_name = csHelper.get_device_from_mac_address(mac_address_to_find_device_for)
         if not device_name:
+            logging.error("Unable to get device from mac_address because we couldn't find mac_address %s on the router" % mac_address_to_find_device_for)
             return d_to_merge
-        if device_name != d_to_merge['device']:
-            log_message = "Found device %s based on macaddress %s so updating databag accordingly. " \
-                          "Ignoring device %s sent by mgt server, as it is not the right one." \
-                          % (device_name, mac_address_to_find_device_for, d_to_merge['device'])
-            logging.warning(log_message)
-            # Keep whatever was sent (for debug purposes)
-            if 'device' in d_to_merge:
-                d_to_merge['device_as_sent_by_mgtserver'] = d_to_merge['device']
-            if 'dev_id' in d_to_merge:
-                d_to_merge['dev_id_as_sent_by_mgtserver'] = d_to_merge['dev_id']
-            # Use the device we found from now on
-            d_to_merge['device'] = device_name
+
+        # Use the device we found from now on
+        d_to_merge['device'] = device_name
+        logging.info("From device %s from mac_address %s" % (device_name, mac_address_to_find_device_for))
         return d_to_merge
 
     @staticmethod
@@ -183,11 +172,11 @@ class updateDataBag:
             return d_to_merge['mac_address']
         elif 'vif_mac_address' in d_to_merge:
             return d_to_merge['vif_mac_address']
-        logging.warning("Unable to validate mac_address / device because we couldn't locate the mac_address in the json (need 'mac_address' or 'vif_mac_address' property.")
+        logging.warning("Unable to get mac_address from json (need 'mac_address' or 'vif_mac_address' property.")
         return False
 
     def update_dbag_contents(self):
-        d_to_merge = self.validate_device_based_on_mac_address()
+        d_to_merge = self.get_device_from_mac_address()
         d_ip_to_save = {}
 
         # Find mac address
@@ -270,11 +259,11 @@ class updateDataBag:
         return cs_vpnusers.merge(dbag, self.qFile.data)
 
     def process_network_acl(self, dbag):
-        d_to_merge = self.validate_device_based_on_mac_address()
+        d_to_merge = self.get_device_from_mac_address()
         return cs_network_acl.merge(dbag, d_to_merge)
 
     def process_public_ip_acl(self, dbag):
-        d_to_merge = self.validate_device_based_on_mac_address()
+        d_to_merge = self.get_device_from_mac_address()
         return cs_public_ip_acl.merge(dbag, d_to_merge)
 
     def process_firewallrules(self, dbag):
@@ -343,6 +332,8 @@ class updateDataBag:
 
     def processCLItem(self, num, nw_type):
         key = 'eth' + num + 'ip'
+        if num == 0:
+            key = "controlmac"
         dp = { }
         if (key in self.qFile.data['cmd_line']):
             dp['public_ip'] = self.qFile.data['cmd_line'][key]
@@ -350,6 +341,7 @@ class updateDataBag:
             dp['source_nat'] = False
             dp['add'] = True
             dp['one_to_one_nat'] = False
+            dp['mac_address'] = self.qFile.data['cmd_line']['eth' + num + 'mac']
             if nw_type == "public":
                 dp['gateway'] = self.qFile.data['cmd_line']['gateway']
             else:
@@ -357,7 +349,6 @@ class updateDataBag:
                     dp['gateway'] = self.qFile.data['cmd_line']['localgw']
                 else:
                     dp['gateway'] = 'None'
-            dp['nic_dev_id'] = num
             dp['nw_type'] = nw_type
             qf = QueueFile()
             qf.load({ 'ip_address': [dp], 'type': 'ips' })

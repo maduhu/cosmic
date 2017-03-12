@@ -119,17 +119,11 @@ public class VirtualRoutingResourceTest implements VirtualRouterDeployer {
 
     private ExecutionResult prepareNetworkElementCommand(final IpAssocVpcCommand cmd) {
         final IpAddressTO[] ips = cmd.getIpAddresses();
-        for (final IpAddressTO ip : ips) {
-            ip.setNicDevId(2);
-        }
         return new ExecutionResult(true, null);
     }
 
     private ExecutionResult prepareNetworkElementCommand(final IpAssocCommand cmd) {
         final IpAddressTO[] ips = cmd.getIpAddresses();
-        for (final IpAddressTO ip : ips) {
-            ip.setNicDevId(2);
-        }
         return new ExecutionResult(true, null);
     }
 
@@ -141,13 +135,11 @@ public class VirtualRoutingResourceTest implements VirtualRouterDeployer {
 
     private ExecutionResult prepareNetworkElementCommand(final SetSourceNatCommand cmd) {
         final IpAddressTO ip = cmd.getIpAddress();
-        ip.setNicDevId(1);
         return new ExecutionResult(true, null);
     }
 
     private ExecutionResult prepareNetworkElementCommand(final SetNetworkACLCommand cmd) {
         final NicTO nic = cmd.getNic();
-        nic.setDeviceId(3);
         return new ExecutionResult(true, null);
     }
 

@@ -10,7 +10,6 @@ public class IpAddress {
     private String netmask;
     private String vifMacAddress;
     private String deviceMacAddress;
-    private Integer nicDevId;
     private boolean newNic;
     private String nwType;
 
@@ -20,7 +19,7 @@ public class IpAddress {
 
     public IpAddress(final String publicIp, final boolean sourceNat, final boolean add, final boolean oneToOneNat,
                      final boolean firstIP, final String gateway, final String netmask, final String vifMacAddress,
-                     final String deviceMacAddress, final Integer nicDevId, final boolean newNic, final String nwType) {
+                     final String deviceMacAddress, final boolean newNic, final String nwType) {
         super();
         this.publicIp = publicIp;
         this.sourceNat = sourceNat;
@@ -31,7 +30,6 @@ public class IpAddress {
         this.netmask = netmask;
         this.vifMacAddress = vifMacAddress;
         this.deviceMacAddress = deviceMacAddress;
-        this.nicDevId = nicDevId;
         this.newNic = newNic;
         this.nwType = nwType;
     }
@@ -98,14 +96,6 @@ public class IpAddress {
 
     public void setVifMacAddress(final String vifMacAddress) {
         this.vifMacAddress = vifMacAddress;
-    }
-
-    public Integer getNicDevId() {
-        return nicDevId;
-    }
-
-    public void setNicDevId(final Integer nicDevId) {
-        this.nicDevId = nicDevId;
     }
 
     public boolean isNewNic() {

@@ -10,7 +10,6 @@ def merge(dbag, ip):
         ip['public_ip'] = ip['ip_address']
 
     for identifier in dbag:
-        print dbag
         if identifier == "id":
             continue
         for address in dbag[identifier]:

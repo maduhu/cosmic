@@ -283,8 +283,6 @@ class updateDataBag:
                 logging.warning(log_message)
                 print("Warning! " + log_message)
 
-            logging.warning(log_message)
-            print("[INFO] " + log_message)
             ip['device'] = device_name
             ip['nic_dev_id'] = device_name.replace("eth", "")
             dbag = cs_ip.merge(dbag, ip)
@@ -295,13 +293,13 @@ class updateDataBag:
         # "eth0ip": "192.168.56.32",
         # "eth0mask": "255.255.255.0",
         self.newData = []
-        if (self.qFile.data['cmd_line']['type'] == "router"):
+        if self.qFile.data['cmd_line']['type'] == "router":
             self.processCLItem('0', "guest")
             self.processCLItem('1', "control")
             self.processCLItem('2', "public")
-        elif (self.qFile.data['cmd_line']['type'] == "vpcrouter"):
+        elif self.qFile.data['cmd_line']['type'] == "vpcrouter":
             self.processCLItem('0', "control")
-        elif (self.qFile.data['cmd_line']['type'] == "dhcpsrvr"):
+        elif self.qFile.data['cmd_line']['type'] == "dhcpsrvr":
             self.processCLItem('0', "guest")
             self.processCLItem('1', "control")
         return cs_cmdline.merge(dbag, self.qFile.data)
@@ -311,7 +309,7 @@ class updateDataBag:
         if num == 0:
             key = "controlmac"
         dp = { }
-        if (key in self.qFile.data['cmd_line']):
+        if key in self.qFile.data['cmd_line']:
             dp['public_ip'] = self.qFile.data['cmd_line'][key]
             dp['netmask'] = self.qFile.data['cmd_line']['eth' + num + 'mask']
             dp['source_nat'] = False
@@ -321,7 +319,7 @@ class updateDataBag:
             if nw_type == "public":
                 dp['gateway'] = self.qFile.data['cmd_line']['gateway']
             else:
-                if('localgw' in self.qFile.data['cmd_line']):
+                if 'localgw' in self.qFile.data['cmd_line']:
                     dp['gateway'] = self.qFile.data['cmd_line']['localgw']
                 else:
                     dp['gateway'] = 'None'

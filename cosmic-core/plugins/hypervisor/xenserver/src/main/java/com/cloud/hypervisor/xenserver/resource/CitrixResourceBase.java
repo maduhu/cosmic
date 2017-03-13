@@ -328,7 +328,7 @@ public abstract class CitrixResourceBase implements ServerResource, HypervisorRe
                 final VM router = getVM(conn, routerName);
 
                 final NicTO nic = new NicTO();
-                nic.setMac(ip.getVifMacAddress());
+                nic.setMac(ip.getMacAddress());
                 nic.setType(ip.getTrafficType());
                 if (ip.getBroadcastUri() == null) {
                     nic.setBroadcastType(BroadcastDomainType.Native);
@@ -4279,7 +4279,7 @@ public abstract class CitrixResourceBase implements ServerResource, HypervisorRe
                 final VM router = getVM(conn, routerName);
 
                 final NicTO nic = new NicTO();
-                nic.setMac(ip.getVifMacAddress());
+                nic.setMac(ip.getMacAddress());
                 nic.setType(ip.getTrafficType());
                 if (ip.getBroadcastUri() == null) {
                     nic.setBroadcastType(BroadcastDomainType.Native);

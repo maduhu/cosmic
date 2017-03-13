@@ -27,12 +27,6 @@ def merge(dbag, ip):
     else:
         ip['nw_type'] = ip['nw_type'].lower()
 
-    # TODO refactor these 3 names to be 'mac_address'
-    if 'mac_address' not in ip and 'device_mac_address' in ip:
-        ip['mac_address'] = ip['device_mac_address']
-    if 'mac_address' not in ip and 'vif_mac_address' in ip:
-        ip['mac_address'] = ip['vif_mac_address']
-
     # Get device from mac address
     device = get_device_from_mac_address(ip['mac_address'])
     if device == "false":

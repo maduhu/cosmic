@@ -8,8 +8,7 @@ public class IpAddress {
     private boolean firstIP;
     private String gateway;
     private String netmask;
-    private String vifMacAddress;
-    private String deviceMacAddress;
+    private String macAddress;
     private boolean newNic;
     private String nwType;
 
@@ -18,8 +17,7 @@ public class IpAddress {
     }
 
     public IpAddress(final String publicIp, final boolean sourceNat, final boolean add, final boolean oneToOneNat,
-                     final boolean firstIP, final String gateway, final String netmask, final String vifMacAddress,
-                     final String deviceMacAddress, final boolean newNic, final String nwType) {
+                     final boolean firstIP, final String gateway, final String netmask, final String macAddress, final boolean newNic, final String nwType) {
         super();
         this.publicIp = publicIp;
         this.sourceNat = sourceNat;
@@ -28,8 +26,7 @@ public class IpAddress {
         this.firstIP = firstIP;
         this.gateway = gateway;
         this.netmask = netmask;
-        this.vifMacAddress = vifMacAddress;
-        this.deviceMacAddress = deviceMacAddress;
+        this.macAddress = macAddress;
         this.newNic = newNic;
         this.nwType = nwType;
     }
@@ -90,14 +87,6 @@ public class IpAddress {
         this.netmask = netmask;
     }
 
-    public String getVifMacAddress() {
-        return vifMacAddress;
-    }
-
-    public void setVifMacAddress(final String vifMacAddress) {
-        this.vifMacAddress = vifMacAddress;
-    }
-
     public boolean isNewNic() {
         return newNic;
     }
@@ -114,11 +103,11 @@ public class IpAddress {
         this.nwType = nwType;
     }
 
-    public String getDeviceMacAddress() {
-        return deviceMacAddress;
+    public String getMacAddress() {
+        return macAddress;
     }
 
-    public void setDeviceMacAddress(final String deviceMacAddress) {
-        this.deviceMacAddress = deviceMacAddress;
+    public void setMacAddress(final String macAddress) {
+        this.macAddress = macAddress;
     }
 }

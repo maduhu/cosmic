@@ -345,13 +345,13 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
 
                 if (!broadcastUriAllocatedToVm.containsKey(ip.getBroadcastUri())) {
           /* plug a vif into router */
-                    vifHotPlug(conn, routerName, ip.getBroadcastUri(), ip.getVifMacAddress());
+                    vifHotPlug(conn, routerName, ip.getBroadcastUri(), ip.getMacAddress());
                     broadcastUriAllocatedToVm.put(ip.getBroadcastUri(), nicPos++);
                 }
                 nicNum = broadcastUriAllocatedToVm.get(ip.getBroadcastUri());
 
                 if (numOfIps == 1 && !ip.isAdd()) {
-                    vifHotUnPlug(conn, routerName, ip.getVifMacAddress());
+                    vifHotUnPlug(conn, routerName, ip.getMacAddress());
                     networkUsage(routerIp, "deleteVif", "eth" + nicNum);
                 }
             }
@@ -440,7 +440,7 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
                 boolean newNic = false;
                 if (!bridgeToNicNum.containsKey(getBridgeNameFromTrafficType(ip.getTrafficType()))) {
                     /* plug a vif into router */
-                    vifHotPlug(conn, routerName, ip.getBroadcastUri(), ip.getVifMacAddress());
+                    vifHotPlug(conn, routerName, ip.getBroadcastUri(), ip.getMacAddress());
                     bridgeToNicNum.put(getBridgeNameFromTrafficType(ip.getTrafficType()), devNum++);
                     newNic = true;
                 }

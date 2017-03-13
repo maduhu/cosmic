@@ -5,20 +5,20 @@ public class PrivateGateway extends ConfigBase {
     private boolean sourceNat;
     private boolean add;
     private String netmask;
-    private String vifMacAddress;
+    private String macAddress;
 
     public PrivateGateway() {
         // Empty constructor for (de)serialization
         super(ConfigBase.PRIVATE_GATEWAY);
     }
 
-    public PrivateGateway(final String ipAddress, final boolean sourceNat, final boolean add, final String netmask, final String vifMacAddress) {
+    public PrivateGateway(final String ipAddress, final boolean sourceNat, final boolean add, final String netmask, final String macAddress) {
         super(ConfigBase.PRIVATE_GATEWAY);
         this.ipAddress = ipAddress;
         this.sourceNat = sourceNat;
         this.add = add;
         this.netmask = netmask;
-        this.vifMacAddress = vifMacAddress;
+        this.macAddress = macAddress;
     }
 
     public String getIpAddress() {
@@ -53,12 +53,12 @@ public class PrivateGateway extends ConfigBase {
         this.netmask = netmask;
     }
 
-    public String getVifMacAddress() {
-        return vifMacAddress;
+    public String getMacAddress() {
+        return macAddress;
     }
 
-    public void setVifMacAddress(final String vifMacAddress) {
-        this.vifMacAddress = vifMacAddress;
+    public void setMacAddress(final String macAddress) {
+        this.macAddress = macAddress;
     }
 
 }

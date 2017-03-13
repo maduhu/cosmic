@@ -152,7 +152,7 @@ class updateDataBag:
 
         mac_address_to_find_device_for = self.get_macaddress_from_databag(d_to_merge)
         if not mac_address_to_find_device_for:
-            logging.error("Unable to get device from mac_address because we couldn't locate the mac_address in the json (need 'mac_address' or 'vif_mac_address' property.")
+            logging.error("Unable to get device from mac_address because we couldn't locate the mac_address in the json (need 'mac_address' property.")
             return d_to_merge
 
         device_name = csHelper.get_device_from_mac_address(mac_address_to_find_device_for)
@@ -170,21 +170,12 @@ class updateDataBag:
         # Find mac address
         if 'mac_address' in d_to_merge:
             return d_to_merge['mac_address']
-        elif 'vif_mac_address' in d_to_merge:
-            return d_to_merge['vif_mac_address']
-        logging.warning("Unable to get mac_address from json (need 'mac_address' or 'vif_mac_address' property.")
+        logging.warning("Unable to get mac_address from json (need 'mac_address' property.")
         return False
 
     def update_dbag_contents(self):
         d_to_merge = self.get_device_from_mac_address()
         d_ip_to_save = {}
-
-        # Find mac address
-        if 'mac_address' in d_to_merge:
-            d_to_merge['vif_mac_address'] = d_to_merge['mac_address']
-            d_ip_to_save['vif_mac_address'] = d_to_merge['mac_address']
-        elif 'vif_mac_address' in d_to_merge:
-            d_ip_to_save['vif_mac_address'] = d_to_merge['vif_mac_address']
 
         # device and device id
         d_ip_to_save['device'] = d_to_merge['device']
@@ -285,32 +276,17 @@ class updateDataBag:
     def process_ip(self, dbag):
         for ip in self.qFile.data["ip_address"]:
             # Find the right device we should use to configure the ip address
-            # vif_mac_address is a mac address per ip-address, based on the mac address of the device
-            # The original macaddress of the device is sent as device_mac_address, so we will check based
-            # on that macaddress.
-            if 'device_mac_address' in ip:
-                device_name = csHelper.get_device_from_mac_address(ip['device_mac_address'])
-                if not device_name:
-                    log_message = "Cannot find device while looking for %s. Ignoring for now, it may arrive later.." \
-                                  % ip['device_mac_address']
-                    logging.warning(log_message)
-                    print("Warning! " + log_message)
-                else:
-                    if ip['vif_mac_address'] != ip['device_mac_address']:
-                        log_message = "Found device %s based on macaddress %s so updating databag accordingly. " \
-                                      "Ignoring macaddress %s sent by mgt server, as it is not the right one." \
-                                      % (device_name, ip['device_mac_address'], ip['vif_mac_address'])
-                        ip['vif_mac_address_as_sent_by_mgt_server'] = ip['vif_mac_address']
-                    else:
-                        log_message = "The mac address as sent by the management server %s matches the one we found (%s) on device %s so that's good"\
-                                      % (ip['vif_mac_address'], ip['device_mac_address'], device_name)
-                        logging.info(log_message)
+            device_name = csHelper.get_device_from_mac_address(ip['mac_address'])
+            if not device_name:
+                log_message = "Cannot find device while looking for %s. Ignoring for now, it may arrive later.." \
+                              % ip['mac_address']
+                logging.warning(log_message)
+                print("Warning! " + log_message)
 
-                    logging.warning(log_message)
-                    print("[INFO] " + log_message)
-                    ip['vif_mac_address'] = ip['device_mac_address']
-                    ip['device'] = device_name
-                    ip['nic_dev_id'] = device_name.replace("eth","")
+            logging.warning(log_message)
+            print("[INFO] " + log_message)
+            ip['device'] = device_name
+            ip['nic_dev_id'] = device_name.replace("eth", "")
             dbag = cs_ip.merge(dbag, ip)
         return dbag
 

@@ -17,6 +17,6 @@ def merge(dbag, ip):
     ip['size'] = str(ipo.prefixlen)
     ip['network'] = str(ipo.network) + '/' + str(ipo.prefixlen)
 
-    dbag.setdefault(ip['vif_mac_address'], []).append(ip)
+    dbag.setdefault(ip['mac_address'], []).append(ip)
 
     return dbag

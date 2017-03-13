@@ -174,8 +174,13 @@ class updateDataBag:
         return False
 
     def update_dbag_contents(self):
+        # Databag to save to guest_networks.json
         d_to_merge = self.get_device_from_mac_address()
+        # Databag to save to ips.json
         d_ip_to_save = {}
+
+        # Mac address
+        d_ip_to_save['mac_address'] = d_to_merge['mac_address']
 
         # device and device id
         d_ip_to_save['device'] = d_to_merge['device']

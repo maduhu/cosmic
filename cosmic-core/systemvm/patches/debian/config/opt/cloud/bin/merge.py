@@ -152,13 +152,17 @@ class updateDataBag:
 
         mac_address_to_find_device_for = self.get_macaddress_from_databag(d_to_merge)
         if not mac_address_to_find_device_for:
-            logging.error("Unable to get device from mac_address because we couldn't locate the mac_address in the json (need 'mac_address' property.")
-            return d_to_merge
+            message = "Unable to get device from mac_address because we couldn't locate the mac_address in the json (need 'mac_address' property."
+            logging.error(message)
+            print message
+            sys.exit(1)
 
         device_name = csHelper.get_device_from_mac_address(mac_address_to_find_device_for)
         if not device_name:
-            logging.error("Unable to get device from mac_address because we couldn't find mac_address %s on the router" % mac_address_to_find_device_for)
-            return d_to_merge
+            message = "Unable to get device from mac_address because we couldn't find mac_address %s on the router" % mac_address_to_find_device_for
+            logging.error(message)
+            print message
+            sys.exit(1)
 
         # Use the device we found from now on
         d_to_merge['device'] = device_name

@@ -19,11 +19,16 @@ class CsAddress(CsDataBag):
         for dbag_data in self.config.ips.dbag.values():
             if dbag_data == "ips":
                 continue
-            device_data = dbag_data[0]
-            ip = CsIP(device_data['device'], device_data["mac_address"], self.config)
-            # Process for all types, except the link local interface
-            if device_data['device'] is not self.get_control_if():
-                ip.compare(self.dbag)
+            print dbag_data
+            try:
+                device_data = dbag_data[0]
+                #device_data = dbag_data
+                ip = CsIP(device_data['device'], device_data["mac_address"], self.config)
+                # Process for all types, except the link local interface
+                if device_data['device'] is not self.get_control_if():
+                    ip.compare(self.dbag)
+            except:
+                pass
 
     def get_interfaces(self):
         interfaces = []
@@ -92,8 +97,11 @@ class CsAddress(CsDataBag):
             if identifier == "id":
                 continue
 
-            dev = self.dbag[identifier][0]['device']
-            ip = CsIP(dev, identifier, self.config)
+            try:
+                dev = self.dbag[identifier][0]['device']
+                ip = CsIP(dev, identifier, self.config)
+            except:
+                continue
 
             for address in self.dbag[identifier]:
                 ip.setAddress(address)
